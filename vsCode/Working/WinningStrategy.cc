@@ -36,37 +36,51 @@ In the second case, no way to form this specific order*/
 #include "map"
 using namespace std;
 
-bool swapper(int* arr, int size, int c, int swaps)
-{
-    if(c == size - 1)
-    {
-        
-    }
-}
-
 int main() {
-    int32_t size = 0, tmp = 0;
-    cin>>size;
-    int players[size];
-    for(int i = 0; i < size; i++)
+    int n;
+    cin>>n;
+    pair<int, int> arr[n];
+    for(int i = 0; i < n; i++)
     {
-        cin>>players[i];
+        cin>>arr[i].first;
+        arr[i].first -= 1;
+        arr[i].second = 2;
     }
-    int swaps = 0;
-    for(int i = 0; i < size; i++)
+    int i = 0, swaps = 0;
+    bool yes = true;
+    while(i < n)
     {
-        if(players[i] - i > 2)
+        if( (arr[i].first - i) > 2)
         {
-            cout<<"no";
-            return 0;
+            cout<<"NO"<<endl;
+            yes = false;
+            break;
         }
         else
         {
-            swaps++;
-            int tmp = players[i];
-            players[i] =  players[i + 1];
-            players[i + 1] = tmp;
+            bool trap = false;
+            int tmp = arr[i].first;
+            for(int j = i + 1; j <= tmp; j++)
+            {
+                arr[i].second--;
+                arr[j].second--;
+                swaps++;
+                if( (arr[j].second < 0) || (arr[i].second < 0) )
+                {
+                    cout<<"NO"<<endl;
+                    yes = false;
+                    trap = true;
+                    break;
+                }
+            }
+            if(trap)
+                break;
+            i++;
         }
-        i--;
+    }
+    if(yes)
+    {
+        cout<<"YES"<<endl;
+        cout<<swaps<<endl;
     }
 }
