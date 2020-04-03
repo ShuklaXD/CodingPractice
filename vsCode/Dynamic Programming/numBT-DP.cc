@@ -5,11 +5,6 @@ using namespace std;
 
 int countBST( int n)
 {
-  /* Don't write main().
-     * Don't read input, it is passed as function argument.
-     * Return output and don't print it.
-     * Taking input and printing output is handled automatically.
-     */
     int dp[n + 1];
     memset(dp, 0, sizeof(dp));
     dp[0] = dp[1] = 1;
