@@ -71,5 +71,7 @@
         "thread": "cpp",
         "typeindex": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "editor.wordWrap": "on",
+    "terminal.explorerKind": "external"
 }
