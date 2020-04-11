@@ -5,7 +5,7 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "build a.out",
+            "label": "Win g++ build active file",
             "command": "g++",
             "args": [
                 "-g",
@@ -15,6 +15,24 @@
             ],
             "options": {
                 "cwd": "C:\\MinGW\\bin"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "linux g++ build active file",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/out/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
             },
             "problemMatcher": [
                 "$gcc"
