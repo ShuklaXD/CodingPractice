@@ -29,7 +29,7 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/out/${fileBasenameNoExtension}"
+                "/home/shubham/binaries/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "/usr/bin"

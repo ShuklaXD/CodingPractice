@@ -25,18 +25,19 @@ typedef pair<int,int> pi;
 #define li (2*treeIndex)
 #define ri (2*treeIndex+1)
 #define REP(i,a,b) for (int i = a; i <= b; i++)
+#define deb(x) cout<<#x<<" "<<x<<endl;
 
 const int INF = 1e6 + 5;
 const int mod = 1e9 + 7;
 
 /**************************************************/
 
-int size;
+int sz;
 vi segTree, arr, lazy;
 
 void printArr()
 {
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < sz; i++)
 		cout<<arr[i]<<" ";
 	cout<<endl;
 }
@@ -115,16 +116,16 @@ int query(int treeIndex, int left, int right, int start = 0, int end = arr.size(
 void solve()
 {
 	segTree.clear();
-	cin>>size;
-	arr.resize(size);
+	cin>>sz;
+	arr.resize(sz);
 
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < sz; i++)
 		cin>>arr[i];
 	
-	segTree.resize(4*size);
-    lazy.resize(4*size);
+	segTree.resize(4*sz);
+    lazy.resize(4*sz);
     
-	construct(arr, 0, size - 1, 1);
+	construct(arr, 0, sz - 1, 1);
 
 	printTree();
 	printArr();
