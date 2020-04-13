@@ -78,23 +78,49 @@ typedef pair<int,int> pi;
 const int INF = 1e6 + 5;
 const int mod = 1e9 + 7;
 
-
-
-int fun(vector<pi>& party, int i, int budget, vector<vi>& dp)
+pi fun(vector<pi>& party, int i, int budget, vector<vector<pi>>& dp)
 {
-    if(budget <= 0)
-        return 0;
+    pi res = MP(0,0);
+    if(budget == 0 || i == dp.size())
+        return res;
+    if(budget < 0)
+    {
+        res.second = -INF;
+        return res;
+    }
 
-    if(i == party.size())
-        return 0;
-
-    if(dp[i][budget]!= - 1)
+    if(dp[i][budget].second != - 1)
         return dp[i][budget];
     else
     {
-        dp[i][budget] = max(
-            fun(party, i+1, budget, dp), party[i].second + fun(party, i+1, budget - party[i].first, dp)
-        );
+        pi f = fun(party, i+1, budget, dp);
+        pi s = fun(party, i+1, budget - party[i].first, dp);
+
+        if(f.second == party[i].second + s.second)
+        {
+            if(f.first <= party[i].first + s.first)
+            {
+                dp[i][budget].second = f.second;
+                dp[i][budget].first = f.first;
+            }
+            else
+            {
+                dp[i][budget].second = party[i].second + s.second;
+                dp[i][budget].first = party[i].first + s.first;
+            }
+        }
+        else if(f.second > party[i].second + s.second)
+        {
+            dp[i][budget].second = f.second;
+            dp[i][budget].first = f.first;
+        }
+        else
+        {
+            dp[i][budget].second = party[i].second + s.second;
+            dp[i][budget].first = party[i].first + s.first;
+        }
+        
+        // cout<<"dp "<<i<<" "<<budget<<" : "<<dp[i][budget].first<<" fun : "<<dp[i][budget].second<<endl;
         return dp[i][budget];
     }
 }
@@ -128,15 +154,22 @@ void solve()
 {
 	int budget, n;
     cin>>budget>>n;
-    vector<pi> party(n);    //first : fees; second : fun
+    
+    vector<vector<pi>> dp;
+    vector<pi> party;
+
+    party.resize(n);    //first : fees; second : fun
 
     for(int i = 0; i < n; ++i)
         cin>>party[i].first>>party[i].second;
     
-    vector<vi> dp(n, vi(budget+1, -1));
+    dp.resize(n+1, vector<pi>(budget+1, pi(0,-1)));
 
-    cout<<fun(party,0,budget,dp);
+    pi res = fun(party, 0, budget, dp);
+    cout<<"Ans : "<<res.first<<" "<<res.second<<endl;
 
+    dp.clear();
+    party.clear();
     // dp(party, budget);
 }
 
@@ -145,12 +178,91 @@ int main()
 	ios::sync_with_stdio(0);
 	cin.tie(0);
 
-	int cases = 1;
+	int cases = 10;
 
 	// cin>>cases;
 
 	while(cases-->0)
 		solve();
 	
+	return 0;
+}
+
+
+
+void dp(vector<pi>& party, int budget)
+{
+    int sz = party.size();
+
+    vector<vector<pi>> dp(sz+1, vector<pi>(budget+1));
+
+    for(int i = sz-1; i>=0; i--)
+    {
+        for(int k = party[i-1].first; k<= budget; k++)
+        {
+            
+        }
+    }
+
+    cout<<dp[sz][budget].first<<" "<<dp[sz][budget].second<<endl;
+}
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int n,i,x,y,pb,j;
+	pair<int,int>pf[101];
+	
+	while(1)
+	{
+	scanf("%d%d",&pb,&n);
+	if(pb==0&&n==0)break;
+	
+	for(i=0;i<n;i++)
+	{
+		scanf("%d%d",&x,&y);
+		pf[i]=make_pair(x,y);
+	}
+	int dp[n+1][pb+1];
+	for(i=0;i<=n;i++)
+	for(j=0;j<=pb;j++)
+	{
+		dp[i][j]=0;
+	}
+	for(i=0;i<=n;i++)
+	{
+		dp[i][0]=0;
+	}
+	for(i=0;i<=pb;i++)
+	{
+		dp[0][i]=0;
+	}
+	for(i=1;i<=n;i++)
+	{
+		for(j=1;j<=pb;j++)
+		{
+			if(pf[i-1].first<=j)
+			{
+				dp[i][j]=max(pf[i-1].second+dp[i-1][j-pf[i-1].first],dp[i-1][j]);
+			}
+			else 
+			{
+				dp[i][j]=dp[i-1][j];
+			}
+		}
+	}
+	int maxfun=dp[n][pb];
+	int minmoney=0;
+	for(i=0;i<=pb;i++)
+	{
+		if(dp[n][i]==maxfun)
+		{
+			minmoney=i;
+			break;
+		}
+	}
+	printf("%d %d\n",minmoney,maxfun);
+	}
 	return 0;
 }

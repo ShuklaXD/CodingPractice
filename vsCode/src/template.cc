@@ -23,7 +23,8 @@ typedef pair<int,int> pi;
 #define PB push_back 
 #define MP make_pair
 
-#define REP(i,a,b) for (int i = a; i <= b; i++)
+#define Fo(i,a,b) for (int i = a; i <= b; i++)
+#define fo(i,n) for(int i = 0; i < n; i++)
 
 const int INF = 1e6 + 5;
 const int mod = 1e9 + 7;

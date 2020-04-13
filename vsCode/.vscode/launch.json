@@ -29,7 +29,7 @@
             "name": "linux g++ build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/out/${fileBasenameNoExtension}",
+            "program": "/home/shubham/binaries/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

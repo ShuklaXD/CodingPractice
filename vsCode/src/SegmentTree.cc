@@ -18,10 +18,8 @@ typedef long long ll;
 typedef vector<int> vi;
 typedef pair<int,int> pi;
 
-#define F first 
-#define S second 
-#define PB push_back 
-#define MP make_pair
+
+
 
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 
@@ -30,12 +28,12 @@ const int mod = 1e9 + 7;
 
 /**************************************************/
 
-	int size;
-	vi segTree,arr;
+int n,q;
+vi segTree,arr;
 
 void printArr()
 {
-	for(int i = 0; i < size; i++)
+	for(int i = 0; i < n; i++)
 		cout<<arr[i]<<" ";
 	cout<<endl;
 }
@@ -92,7 +90,6 @@ int update(int index,	//to update in the actual array
 	segTree[treeindex] += diff;
 	return diff;
 }
-stack<char> s1;
 
 int query(int treeIndex, int left, int right, int start = 0, int end = arr.size() - 1)
 {
@@ -112,16 +109,17 @@ int query(int treeIndex, int left, int right, int start = 0, int end = arr.size(
 void solve()
 {
 	segTree.clear();
-	size = 5;
-	// cin>>size;
-	arr.resize(size);
+	n = 5;
+	// cin>>n;
+	arr.resize(n);
 
 	arr = {1,2,3,4,5};
-	// for(int i = 0; i < size; i++)
-		// cin>>arr[i];
+
+	REP(i,0,n)	
+		cin>>arr[i];
 	
-	segTree.resize(4*size);
-	construct(arr, 0, size - 1, 1);
+	segTree.resize(4*n);
+	construct(arr, 0, n - 1, 1);
 
 	printTree();
 
