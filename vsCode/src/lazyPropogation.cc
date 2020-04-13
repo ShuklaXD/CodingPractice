@@ -93,22 +93,36 @@ int update(int lr,
 	
     update(lr, rr, 2*treeIndex, value, start, mid);
     update(lr, rr, 2*treeIndex + 1, value, mid+1, end);
-	
+
+	segTree[treeIndex] = segTree[2*treeIndex] + segTree[2*treeIndex+1];
 }
-stack<char> s1;
 
 int query(int treeIndex, int left, int right, int start = 0, int end = arr.size() - 1)
 {
+    if(lazy[treeIndex] != 0)
+    {
+        segTree[treeIndex] += lazy[treeIndex];
+        if(left != right)
+        {
+            lazy[li] += lazy[treeIndex];
+            lazy[ri] += lazy[treeIndex];
+        }
+        lazy[treeIndex] = 0;
+    }
+
 	if(left > end || right < start)
 		return 0;
 	
 	if(start >= left && right >= end)
-		return segTree[treeIndex];
+    {
+        return segTree[treeIndex];
+    }
 	
 	int mid = (start + end) / 2;
 
 	int lt = query(2*treeIndex , left, right, start, mid);
 	int rt = query(2*treeIndex + 1 , left, right, mid+1, end);
+
 	return lt + rt;
 }
 
@@ -126,8 +140,8 @@ void solve()
     
 	construct(arr, 0, size - 1, 1);
 
-	printTree();
-	printArr();
+	// printTree();
+	// printArr();
 }
 
 int main() 
