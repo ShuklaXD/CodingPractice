@@ -31,7 +31,8 @@ const int mod = 1e9 + 7;
 
 void solve()
 {
-	
+	vector<int> dp(8, 0);
+	cout<<dp[9]<<endl;
 }
 
 int main() 
