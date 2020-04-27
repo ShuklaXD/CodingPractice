@@ -4,22 +4,9 @@ using namespace std;
 // int 2 * 1e9
 // long long 9 * 1e18
 
-/*
-input size required time complexity 
-n≤10 		O(n!) 
-n≤20 		O(2^n) 
-n≤500 		O(n^3) 
-n≤5000 		O(n^2) 
-n≤10^6		O(nlogn) or O(n) 
-n is large	O(1) or O(logn)
-*/
-
 typedef long long ll;
 typedef vector<int> vi;
 typedef pair<int,int> pi;
-
-
-
 
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 
@@ -69,6 +56,7 @@ int update(int index,	//to update in the actual array
 			int end = arr.size() - 1)	//end of subtree
 {
 	int diff = 0;
+
 	if(start == end)
 	{
 		diff = value - arr[index];
@@ -80,13 +68,10 @@ int update(int index,	//to update in the actual array
 	int mid = (start + end) / 2;
 	
 	if(index <= mid)
-	{
 		diff = update(index, 2*treeindex, value, start, mid);
-	}
 	else
-	{
 		diff = update(index, 2*treeindex + 1, value, mid+1, end);
-	}
+	
 	segTree[treeindex] += diff;
 	return diff;
 }
@@ -115,8 +100,8 @@ void solve()
 
 	arr = {1,2,3,4,5};
 
-	REP(i,0,n)	
-		cin>>arr[i];
+	// REP(i,0,n)	
+	// 	cin>>arr[i];
 	
 	segTree.resize(4*n);
 	construct(arr, 0, n - 1, 1);
@@ -137,9 +122,7 @@ int main()
 	cin.tie(0);
 
 	int cases = 1;
-
 	// cin>>cases;
-
 	while(cases-->0)
 		solve();
 	
