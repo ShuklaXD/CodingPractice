@@ -20,18 +20,25 @@ vi segTree,arr;
 
 void printArr()
 {
+	cout<<"Array : "<<endl;
 	for(int i = 0; i < n; i++)
-		cout<<arr[i]<<" ";
+		cout<<arr[i]<<"\t";
 	cout<<endl;
 }
 
 void printTree()
 {
+	cout<<"Segment Tree : "<<endl;
 	for(int i = 0; i < segTree.size(); i++)
 	{
-		cout<<segTree[i]<<" ";
+		cout<<segTree[i]<<"\t";
 	}
 	cout<<endl;
+}
+
+int merge(int a, int b)
+{
+	return a+b;	//Operation based on queries
 }
 
 void construct(vi& arr, int start, int end, int treeIndex)
@@ -46,34 +53,30 @@ void construct(vi& arr, int start, int end, int treeIndex)
 	construct(arr, start, mid, 2*treeIndex);
 	construct(arr, mid + 1, end, 2*treeIndex + 1);
 
-	segTree[treeIndex] = segTree[2*treeIndex] + segTree[2*treeIndex + 1];
+	segTree[treeIndex] = merge(segTree[2*treeIndex], segTree[2*treeIndex + 1]);	//query based operation
 }
 
-int update(int index,	//to update in the actual array
+void update(int index,	//to update in the actual array
 			int treeindex,	//to update in segment tree
 			int value,	//value to update
 			int start = 0,	//start of subtree
 			int end = arr.size() - 1)	//end of subtree
 {
-	int diff = 0;
-
 	if(start == end)
 	{
-		diff = value - arr[index];
 		arr[index] = value;
-		segTree[treeindex] = value;
-		return diff;
+		segTree[treeindex] = value;		//query based operation
+		return;
 	}
 
 	int mid = (start + end) / 2;
 	
 	if(index <= mid)
-		diff = update(index, 2*treeindex, value, start, mid);
+		update(index, 2*treeindex, value, start, mid);
 	else
-		diff = update(index, 2*treeindex + 1, value, mid+1, end);
+		update(index, 2*treeindex + 1, value, mid+1, end);
 	
-	segTree[treeindex] += diff;
-	return diff;
+	segTree[treeindex] = merge(segTree[2*treeindex], segTree[2*treeindex + 1]);	//query based operation
 }
 
 int query(int treeIndex, int left, int right, int start = 0, int end = arr.size() - 1)
@@ -88,7 +91,7 @@ int query(int treeIndex, int left, int right, int start = 0, int end = arr.size(
 
 	int lt = query(2*treeIndex , left, right, start, mid);
 	int rt = query(2*treeIndex + 1 , left, right, mid+1, end);
-	return lt + rt;
+	return merge(lt, rt);		//query based operation
 }
 
 void solve()
@@ -106,14 +109,13 @@ void solve()
 	segTree.resize(4*n);
 	construct(arr, 0, n - 1, 1);
 
-	printTree();
-
-	update(0, 1, 12);
-
-	printTree();
 	printArr();
+	printTree();
+	update(0, 1, 12);	//1 indexed query
+	printArr();
+	printTree();
 
-	cout<<query(1, 1,3);
+	cout<<query(1, 1,3)<<endl;
 }
 
 int main() 

@@ -69,11 +69,9 @@ class krushkals
             cin>>v1>>v2>>w;
             edges[i] = { w, {min(v1,v2), max(v1,v2)}};
         }
-
         parentDir.resize(v);
         fo(i, v)
             parentDir[i] = i;
-
     }
 
     bool unionFind(int v1, int v2)  //check if they are in same component or not

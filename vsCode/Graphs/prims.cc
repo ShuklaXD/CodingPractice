@@ -59,10 +59,9 @@ class prims
     vi cost;         //cost for this vertex
     vector<bool> visited;   //has the element been visited before
 
-    prims(int vertices, int eds)
+    prims()
     {
-        v = vertices;
-        e = eds;
+        cin>>v>>e;
         edges.resize(v , vi(v, 0));
         fo(i, e)
         {
@@ -126,9 +125,7 @@ int main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    int v,e;
-    cin>>v>>e;
-    prims p(v,e);
+    prims p;
     p.solve();
     return 0;
 }

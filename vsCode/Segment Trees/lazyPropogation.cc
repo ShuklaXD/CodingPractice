@@ -4,24 +4,10 @@ using namespace std;
 // int 2 * 1e9
 // long long 9 * 1e18
 
-/*
-input size required time complexity 
-n≤10 		O(n!) 
-n≤20 		O(2^n) 
-n≤500 		O(n^3) 
-n≤5000 		O(n^2) 
-n≤10^6		O(nlogn) or O(n) 
-n is large	O(1) or O(logn)
-*/
-
 typedef long long ll;
 typedef vector<int> vi;
 typedef pair<int, int> pi;
 
-#define F first
-#define S second
-#define PB push_back
-#define MP make_pair
 #define li (2 * treeIndex)
 #define ri (2 * treeIndex + 1)
 #define REP(i, a, b) for (int i = a; i <= b; i++)
@@ -74,13 +60,13 @@ void construct(vi &arr, int start, int end, int treeIndex)
 	segTree[treeIndex] = segTree[2 * treeIndex] + segTree[2 * treeIndex + 1];
 }
 
-void update(ll lr,
-			ll rr,
-			ll treeIndex,			  //to update in segment tree
-			ll value,				  //value to update
-			ll start,			  //start of subtree
-			ll end) //end of subtree
-{
+void update(ll lr,	//starting index of change interval
+			ll rr,	//ending index of change interval
+			ll treeIndex,	//to update in segment tree
+			ll value,	//value to update
+			ll start,	//start of subtree
+			ll end		//end of subtree
+) {
 	if (lazy[treeIndex] != 0)
 	{
 		segTree[treeIndex] += (end + 1 - start) * lazy[treeIndex];
@@ -93,9 +79,7 @@ void update(ll lr,
 	}
 
 	if (start > rr || end < lr)
-	{
 		return;
-	}
 
 	if (start >= lr && end <= rr)
 	{
@@ -180,9 +164,6 @@ int main()
 	cin.tie(0);
 
 	int cases = 1;
-
-	cin >> cases;
-
 	while (cases-- > 0)
 		solve();
 

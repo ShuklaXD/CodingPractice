@@ -57,10 +57,9 @@ class dijkstra
     vi dist;    //min distance from 0 to i
     vector<bool> visited;   //has the element been visited before
 
-    dijkstra(int vertices, int eds)
+    dijkstra()
     {
-        v = vertices;
-        e = eds;
+        cin>>v>>e;
         edges.resize(v , vi(v, 0));
         fo(i, e)
         {
@@ -115,9 +114,7 @@ int main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    int v,e;
-    cin>>v>>e;
-    dijkstra dj(v,e);
+    dijkstra dj;
     dj.solve();
     return 0;
 }
