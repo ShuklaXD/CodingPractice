@@ -54,7 +54,15 @@ class krushkals
 {
     public:
     int v, e;
-    vi parentDir;   //parent of vertex i is parent[i]
+    
+    class SubSet {
+        public:
+        int parent;
+        int rank;
+    };
+
+    vector<SubSet> parentDir;   //parent of vertex i is parent[i]
+    // vi parentDir;
     vector<pair<int, pi>> edges;    //adjency list based on weights
     vector<pair<int, pi>> mst;      //minimim spanning tree
 
@@ -70,25 +78,60 @@ class krushkals
             edges[i] = { w, {min(v1,v2), max(v1,v2)}};
         }
         parentDir.resize(v);
-        fo(i, v)
-            parentDir[i] = i;
-    }
+        
+        // fo(i, v)
+        //     parentDir[i] = i;
 
-    bool unionFind(int v1, int v2)  //check if they are in same component or not
-    {
-        if(parentDir[v1] == parentDir[v2])  //if they have same parent
-            return false;
-        else
-        {
-            int goner = parentDir[v2];  //all vertices with parent p2 will now have parent as p1
-            for(int i = 0; i < v; i++)
-            {
-                if(parentDir[i] == goner)
-                    parentDir[i] = parentDir[v1];
-            }
-            return true;
+        fo(i, v){
+            parentDir[i].parent = i;
+            parentDir[i].rank = 0;
         }
     }
+
+    //(Path Compression)
+    int find(int vertex){
+        if(parentDir[vertex].parent!=vertex)
+            return find(parentDir[vertex].parent);;
+        return vertex;
+    }
+
+    //(Union by rank)
+    void unify(int x, int y){
+        int x_set_parent = find(x);
+        int y_set_parent = find(y);
+
+        //attach the smaller rank tree to the higher rank tree
+        if(parentDir[x_set_parent].rank > parentDir[y_set_parent].rank){
+            //make x as parent of y
+            parentDir[y_set_parent].parent = x_set_parent;
+
+        }else if(parentDir[y_set_parent].rank < parentDir[y_set_parent].rank){
+            //make y as parent of x
+            parentDir[x_set_parent].parent = y_set_parent;
+
+        }else{
+            // make any tree child of other tree
+            parentDir[y_set_parent].parent = x_set_parent;
+            //now increase the rank of x for the next time
+            parentDir[x_set_parent].rank++;
+        }
+    }
+
+    // bool unionFind(int v1, int v2)  //check if they are in same component or not
+    // {
+    //     if(parentDir[v1] == parentDir[v2])  //if they have same parent
+    //         return false;
+    //     else
+    //     {
+    //         int goner = parentDir[v2];  //all vertices with parent p2 will now have parent as p1
+    //         for(int i = 0; i < v; i++)
+    //         {
+    //             if(parentDir[i] == goner)
+    //                 parentDir[i] = parentDir[v1];
+    //         }
+    //         return true;
+    //     }
+    // }
 
     void solve()
     {
@@ -97,11 +140,24 @@ class krushkals
         int mst_edges = 0;
         for(int i = 0; mst_edges < v-1; i++)
         {
-            if(unionFind(edges[i].second.first, edges[i].second.second))    //find next min weight unconnected edge
-            {
+            int x = find(edges[i].second.first);  
+            int y = find(edges[i].second.second);  
+    
+            // If including this edge does't cause cycle,  
+            // include it in result and increment the index  
+            // of result for next edge
+            if (x != y)  
+            {  
                 mst_edges++;
                 mst.push_back(edges[i]);
-            }
+                unify(x, y);  
+            }  
+
+            // if(unionFind(edges[i].second.first, edges[i].second.second))    //find next min weight unconnected edge
+            // {
+            //     mst_edges++;
+            //     mst.push_back(edges[i]);
+            // }
         }
         
         for(int i = 0; i < v-1; i++)
