@@ -45,7 +45,7 @@ void dfs(vector<vector<bool>>& edges, int n, int start, vector<bool>& visited)
         }
     }
 }
-
+  
 void bfs(vector<vector<bool>>& edges, int n, int start, vector<bool>& visited)
 {
     // cout<<"bfs"<<endl;
@@ -247,8 +247,6 @@ int main()
     cin.tie(0);
 
     int cases = 1;
-
-    // cin>>cases;
 
     while(cases-->0)
         solve();

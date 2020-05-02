@@ -112,14 +112,7 @@ void getConnectedComponentsDFS(vector<vector<bool>> edges, int n)
             comps.clear();
         }
     }
-    for(auto vec : components)
-    {
-        for(int t : vec)
-        {
-            cout<<t<<" ";
-        }
-        cout<<endl;
-    }
+    cout<<components.size()<<endl;
 }
 
 void solve()
@@ -132,8 +125,8 @@ void solve()
     for(int i = 0; i < e; ++i)
     {
         cin>>f>>s;
-        edges[f][s] = true;
-        edges[s][f] = true;
+        edges[f-1][s-1] = true;
+        edges[s-1][f-1] = true;
     }
 
     getConnectedComponentsDFS(edges, n);
@@ -147,7 +140,7 @@ int main()
 
     int cases = 1;
 
-    // cin>>cases;
+    cin>>cases;
 
     while(cases-->0)
         solve();
