@@ -23,6 +23,7 @@ vi segTree, arr, lazy;
 
 void printArr()
 {
+	cout<<"Array : "<<endl;
 	for (int i = 0; i < sz; i++)
 		cout << arr[i] << " ";
 	cout << endl;
@@ -30,6 +31,7 @@ void printArr()
 
 void printTree()
 {
+	cout<<"Segment Tree : "<<endl;
 	for (int i = 0; i < segTree.size(); i++)
 	{
 		cout << segTree[i] << " ";
@@ -38,6 +40,7 @@ void printTree()
 }
 void printLTree()
 {
+	cout<<"Lazy Tree : "<<endl;
 	for (int i = 0; i < segTree.size(); i++)
 	{
 		cout << lazy[i] << " ";
@@ -81,9 +84,9 @@ void update(ll lr,	//starting index of change interval
 	if (start > rr || end < lr)
 		return;
 
-	if (start >= lr && end <= rr)
+	if (lr <= start && end <= rr)
 	{
-		segTree[treeIndex] += (end + 1 - start) * value;
+		segTree[treeIndex] += (end + 1 - start) * value;	//Query Based operation
 		if (start != end)
 		{
 			lazy[li] += value;
@@ -135,11 +138,17 @@ void solve()
 	segTree.clear();
 	lazy.clear();
 	cin >> sz >> q;
+	arr.resize(sz);
 
-	arr.clear();
+	for(int i = 0; i < sz; i++)
+		cin >> arr[i];
+
+	// arr = {1, 2, 3, 4, 5, 6, 7, 8};
+
 	segTree.resize(4 * sz, 0);
 	lazy.resize(4 * sz, 0);
 
+	construct(arr, 0, sz-1, 1);
 
 	int op, l, r, v;
 	while (q--)
@@ -149,11 +158,17 @@ void solve()
 		{
 			cin >> l >> r >> v;
 			update(l - 1, r - 1, 1, v, 0, sz-1);
+			printArr();
+			printTree();
+			printLTree();
 		}
 		else
 		{
 			cin >> l >> r;
 			cout << query(1, l - 1, r - 1, 0, sz-1) << endl;
+			printArr();
+			printTree();
+			printLTree();
 		}
 	}
 }
