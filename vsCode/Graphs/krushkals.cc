@@ -95,8 +95,6 @@ class krushkals
         return vertex;
     }
 
-    if ((schedUeArrayList[i].sched_ue->currentSpsState == SPS_EXPLICIT_RELEASE_INITIATED)  || (schedUeArrayList[i].sched_ue_ctx->ackReceivedForSpsReleasePId)) 
-
     //(Union by rank)
     void unify(int x, int y){
         int x_set_parent = find(x);
