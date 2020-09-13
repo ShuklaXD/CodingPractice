@@ -73,5 +73,6 @@
         "typeinfo": "cpp"
     },
     "editor.wordWrap": "on",
-    "terminal.explorerKind": "external"
+    "terminal.explorerKind": "external",
+    "python.pythonPath": "/usr/bin/python3"
 }
