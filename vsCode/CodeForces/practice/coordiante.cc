@@ -4,47 +4,65 @@ using namespace std;
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<bool> vb;
-typedef vector<ll> vll;
 typedef pair<int,int> pi;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int,int>> vpi;
+typedef long double ld;
 #define sortn(a) sort(a.begin(), a.end())
 #define rep(n) for (int i = 0; i < n; i++)
 #define forn(i,a,b) for (int i = a; i < b; i++)
 #define deb(x) cout << #x << " : " << x << endl;
 #define isBitSet(S, i) ((S >> i) & 1)
-#define cin(arr)    for(int &a : arr)   cin>>a;
 
 const int INF = 1e6 + 5;
 const int mod = 1e9 + 7;
 // int 2 * 1e9
 // long long 9 * 1e18
 
-#define mad(a,b)    (int)((((ll)a%mod) + ((ll)b%mod))%mod);
-
 void solve(int case_num)
 {
-    int n;
-    cin>>n;
-    string ss;
-    cin>>ss;
-    vi str(n);
-    rep(n)
+    ll x, y;
+    cin>>x>>y;
+    ll c1,c2,c3,c4,c5,c6;
+    cin>>c1>>c2>>c3>>c4>>c5>>c6;
+    ll cost = 0;    
+    int vp = min(c2, c1+c3);
+    int vn = min(c5, c6+c4);
+    int hp = min(c6, c1+c5);
+    int hn = min(c3, c2+c4);
+    if(x < 0 && y < 0 && c4 <= c3 + c5)
     {
-        str[i] = (ss[i] == '0') ? 0 : 1;
+        int step = min(-x, -y);
+        x+= step;
+        y+= step;
+        cost += c4*step;
     }
-    
-    int cnt = 0;
-    rep(n)
+    if(x > 0 && y > 0 && c1 <= c2 + c6)
     {
-        if(i+1 < n && str[i] == str[i+1])
-        {
-            cnt++;
-        }
+        int step = min(x, y);
+        x-= step;
+        y-= step;
+        cost += c1*step;
     }
-    cout<<(cnt+1)/2<<endl;
+    if(x > 0)
+    {
+        cost += hp*x;
+        x = 0;
+    }
+    if(x < 0)
+    {
+        cost -= hn*x;
+        x = 0;
+    }
+    if(y > 0)
+    {
+        cost += vp*y;
+        y = 0;
+    }
+    if(y < 0)
+    {
+        cost -= vn*y;
+        y = 0;
+    }
+    cout<<cost<<endl;
 }
 
 int main() 

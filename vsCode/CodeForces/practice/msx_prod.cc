@@ -4,47 +4,65 @@ using namespace std;
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<bool> vb;
-typedef vector<ll> vll;
 typedef pair<int,int> pi;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int,int>> vpi;
 #define sortn(a) sort(a.begin(), a.end())
 #define rep(n) for (int i = 0; i < n; i++)
 #define forn(i,a,b) for (int i = a; i < b; i++)
 #define deb(x) cout << #x << " : " << x << endl;
 #define isBitSet(S, i) ((S >> i) & 1)
-#define cin(arr)    for(int &a : arr)   cin>>a;
 
 const int INF = 1e6 + 5;
 const int mod = 1e9 + 7;
 // int 2 * 1e9
 // long long 9 * 1e18
 
-#define mad(a,b)    (int)((((ll)a%mod) + ((ll)b%mod))%mod);
-
 void solve(int case_num)
 {
     int n;
     cin>>n;
-    string ss;
-    cin>>ss;
-    vi str(n);
-    rep(n)
+    vi arr(n);
+    ll ans = INT_MIN, tmp = 1;
+    for(int &a : arr)   cin>>a;
+
+    sort(arr.begin(), arr.end());
+    int nump = 0;
+    for(int i : arr)
     {
-        str[i] = (ss[i] == '0') ? 0 : 1;
+        if(i%2==0)    nump++;
+    }
+
+    if(arr[0] >= 0)
+    {
+        ans = arr[n-1]*arr[n-2]*arr[n-3]*arr[n-4]*arr[n-5];
+    }
+    else if(arr[n-1] == 0)
+    {
+        ans = 0;
+    }
+    else if(arr[n-1] > 0)
+    {
+        ans = arr[n-1];
+        int l = arr[0]*arr[1];
+        int r = arr[n-2] * arr[n - 3];
+        if(l > r)
+        {
+            ans*=l;
+            l = arr[2]*arr[3];
+        }
+        else
+        {
+            ans*=r;
+            r= arr[n-4]*arr[n-5];
+        }
+        if(l > r)   ans*=l;
+        else    ans*=r;
+    }
+    else
+    {
+        ans = arr[0]*arr[1]*arr[2]*arr[3]*arr[4];
     }
     
-    int cnt = 0;
-    rep(n)
-    {
-        if(i+1 < n && str[i] == str[i+1])
-        {
-            cnt++;
-        }
-    }
-    cout<<(cnt+1)/2<<endl;
+    cout<<ans<<endl;
 }
 
 int main() 
